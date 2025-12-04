@@ -1,0 +1,294 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    /* Solid Deep Black */
+}
+
+/* --- CYBER-HOLOGRAPHIC UI THEME --- */
+
+/* Quiz UI Container */
+.quiz-overlay {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 850px;
+    z-index: 200;
+    display: none;
+    perspective: 1000px;
+    /* For 3D effects */
+}
+
+.quiz-box {
+    background: rgba(10, 20, 40, 0.85);
+    /* Dark Blue Glass */
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+    /* Sharp corners for tech look */
+    padding: 30px;
+    box-shadow:
+        0 0 20px rgba(0, 255, 255, 0.1),
+        inset 0 0 50px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    position: relative;
+    clip-path: polygon(20px 0, 100% 0,
+            100% calc(100% - 20px), calc(100% - 20px) 100%,
+            0 100%, 0 20px);
+    /* Chamfered edges */
+}
+
+/* Animated Border Glow */
+.quiz-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    padding: 2px;
+    background: linear-gradient(45deg, #00ff88, #00ccff, #ff00ff);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.5;
+    animation: borderPulse 3s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes borderPulse {
+    0% {
+        filter: hue-rotate(0deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+        opacity: 0.5;
+    }
+}
+
+.question-text {
+    color: #e0f0ff;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 204, 255, 0.6);
+    font-family: 'Orbitron', sans-serif;
+    /* Tech Font */
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Futuristic Buttons */
+.option-btn {
+    background: linear-gradient(90deg, rgba(0, 255, 255, 0.05), rgba(0, 255, 255, 0.1));
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    color: #00ffff;
+    padding: 18px 25px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.option-btn:hover {
+    background: rgba(0, 255, 255, 0.25);
+    border-color: #00ffff;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    text-shadow: 0 0 8px #00ffff;
+}
+
+.option-btn:active {
+    transform: translateY(1px);
+}
+
+.option-btn.correct {
+    background: linear-gradient(90deg, #00ff88, #00cc88);
+    border-color: #00ff88;
+    color: #002211;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+}
+
+.option-btn.wrong {
+    background: linear-gradient(90deg, #ff4444, #cc0000);
+    border-color: #ff0000;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+}
+
+.feedback {
+    text-align: center;
+    height: 30px;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* Stats HUD */
+.stats-overlay {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 100;
+    pointer-events: none;
+}
+
+/* Boss Health Bar Container */
+.boss-hp-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    text-align: center;
+}
+
+.boss-hp-bar-frame {
+    width: 100%;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #555;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.boss-hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff6600);
+    width: 100%;
+    /* JS updates this */
+    transition: width 0.3s ease-out;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+.boss-label {
+    color: #ff4444;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    margin-bottom: 5px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 5px #ff0000;
+}
+
+/* Player Stats */
+.stat-box {
+    background: rgba(0, 20, 40, 0.8);
+    border-left: 3px solid #00ff88;
+    padding: 10px 25px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
+    color: #fff;
+    min-width: 120px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #00aaaa;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.lives-container {
+    font-size: 24px;
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+.score-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Game Over */
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 5, 10, 0.95);
+    z-index: 300;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.game-over-overlay h1 {
+    font-size: 72px;
+    margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.game-over-overlay button {
+    padding: 15px 50px;
+    font-size: 24px;
+    background: transparent;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    cursor: pointer;
+    margin-top: 40px;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.game-over-overlay button:hover {
+    background: #00ff88;
+    color: #000;
+    box-shadow: 0 0 50px rgba(0, 255, 136, 0.8);
+}
