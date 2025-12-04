@@ -1987,10 +1987,7 @@ function gameLoop() {
     applyScreenShake();
 
     // Movement Input (Physics)
-    if (keys['ArrowLeft']) ship.vx -= ship.acceleration;
-    if (keys['ArrowRight']) ship.vx += ship.acceleration;
-    if (keys['ArrowUp']) ship.vy -= ship.acceleration;
-    if (keys['ArrowDown']) ship.vy += ship.acceleration;
+
 
     requestAnimationFrame(gameLoop);
 }

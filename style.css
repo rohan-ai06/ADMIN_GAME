@@ -292,3 +292,187 @@ body {
     color: #000;
     box-shadow: 0 0 50px rgba(0, 255, 136, 0.8);
 }
+
+/* --- MOBILE CONTROLS --- */
+.mobile-controls {
+    display: none;
+    /* Hidden on desktop */
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    user-select: none;
+    touch-action: none;
+}
+
+.d-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
+    gap: 5px;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 2px solid rgba(0, 255, 136, 0.3);
+    border-radius: 50%;
+    color: #00ff88;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.1s, transform 0.1s;
+}
+
+.control-btn:active,
+.control-btn.active {
+    background: rgba(0, 255, 136, 0.4);
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+/* Grid Positioning for D-Pad */
+#btnUp {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#btnLeft {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#btnRight {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#btnDown {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+
+    /* Show Mobile Controls */
+    .mobile-controls {
+        display: block;
+    }
+
+    /* Adjust Quiz Overlay */
+    .quiz-overlay {
+        width: 90%;
+        bottom: 20px;
+    }
+
+    .quiz-box {
+        padding: 15px;
+    }
+
+    .question-text {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+        /* Stack options */
+        gap: 10px;
+    }
+
+    .option-btn {
+        padding: 12px 15px;
+        font-size: 16px;
+    }
+
+    /* Adjust Stats HUD */
+    .stats-overlay {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "boss boss"
+            "lives score";
+        gap: 5px;
+        padding: 0 10px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 10px;
+        pointer-events: none;
+        box-sizing: border-box;
+    }
+
+    .boss-hp-container {
+        grid-area: boss;
+        width: 100%;
+        position: static;
+        transform: none;
+        margin-bottom: 5px;
+    }
+
+    .stat-box {
+        background: rgba(0, 20, 40, 0.6);
+        padding: 5px 15px;
+        min-width: auto;
+        clip-path: none;
+        border-radius: 4px;
+        border-left: 2px solid #00ff88;
+    }
+
+    .stat-box:nth-child(1) {
+        grid-area: lives;
+        justify-self: start;
+    }
+
+    .stat-box:nth-child(3) {
+        grid-area: score;
+        justify-self: end;
+    }
+
+    .boss-hp-bar-frame {
+        height: 15px;
+    }
+
+    .boss-label {
+        font-size: 10px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+    }
+
+    .lives-container {
+        font-size: 18px;
+    }
+
+    .score-text {
+        font-size: 20px;
+    }
+
+    /* Game Over Screen */
+    .game-over-overlay h1 {
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .game-over-overlay button {
+        font-size: 18px;
+        padding: 10px 30px;
+    }
+
+    /* Mute Button Position */
+    #muteBtn {
+        top: auto;
+        bottom: 20px;
+        right: 20px;
+        font-size: 12px;
+        padding: 5px;
+    }
+}
